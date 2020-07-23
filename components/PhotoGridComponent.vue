@@ -43,30 +43,15 @@
 			},
 		},
 
+		
 		mounted(){
-			let __image_Size = this.$slots.default.length;
-			this.$slots.default.forEach(vnode => {
-				vnode.elm.className += "__image_body"
-
-        vnode.elm.setAttribute("style", "background-image: url( " + vnode.elm.src + ")");
-				switch (true) {
-					case (__image_Size == 1):
-	      		vnode.elm.className += " __single"
-					break;
-					case (__image_Size == 3):
-	      		vnode.elm.className += " __triple"
-					break;
-					case (__image_Size == 4):
-	      		vnode.elm.className += " __quarter"
-					break;
-					case (__image_Size > 4):
-	      		vnode.elm.className += " __quarter __more_image"
-					break;
-				}
-	    }),
-
-	    this.pareseExcessText()
+			this.parseImages();
 		},
+
+		updated() {
+			this.parseImages();
+		},
+
 
 		methods: {
 			passData(){
@@ -75,6 +60,31 @@
 
 			pareseExcessText(){
 				this.image_excess = this.excessText.replace('{{count}}', this.$slots.default.length - 4);
+			},
+
+			parseImages() {
+				let __image_Size = this.$slots.default.length;
+				this.$slots.default.forEach(vnode => {
+					vnode.elm.className += "__image_body"
+
+					vnode.elm.setAttribute("style", "background-image: url( " + vnode.elm.src + ")");
+					switch (true) {
+						case (__image_Size == 1):
+							vnode.elm.className += " __single"
+						break;
+						case (__image_Size == 3):
+							vnode.elm.className += " __triple"
+						break;
+						case (__image_Size == 4):
+							vnode.elm.className += " __quarter"
+						break;
+						case (__image_Size > 4):
+							vnode.elm.className += " __quarter __more_image"
+						break;
+					}
+				}),
+
+				this.pareseExcessText()
 			}
 		}
 	}
